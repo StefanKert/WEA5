@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+     <application>
+       <resource-handler>org.omnifaces.resourcehandler.CombinedResourceHandler</resource-handler>
+  	</application>
+	
+	<navigation-rule>
+		<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>BrowseAllPerformancesEvent</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>BrowseAllVenuesEvent</from-outcome>
+			<to-view-id>/venues.overview.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>BrowseVenueDetailsEvent</from-outcome>
+			<to-view-id>/venues.details.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+		<navigation-rule>
+		<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>BrowseArtistDetailsEvent</from-outcome>
+			<to-view-id>/artists.details.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>BrowseAllArtistsEvent</from-outcome>
+			<to-view-id>/artists.overview.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+</faces-config>

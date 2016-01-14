@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="WEB-INF/templates/basicTemplate.xhtml">
+	<ui:define name="content">
+
+		<h2>Don't use such a code in production mode!</h2>
+		<h3>The following failure occurred:</h3>
+		<p>Message: <h:outputText value="#{failureModel.message}" /></p>
+		<p>Exception: <h:outputText value="#{failureModel.exception}" /></p>
+		<p>Stacktrace: <h:inputTextarea value="#{failureModel.stackTrace}" readonly="true" rows="40" cols="80" /></p>
+
+		<h2>In production mode do it like:</h2>
+		<h3>The following failure occurred:</h3>
+		<p>Message: <h:outputText value="#{failureModel.message}" /></p>
+
+	</ui:define>
+</ui:composition>
+</html>

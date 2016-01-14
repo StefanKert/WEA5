@@ -1,0 +1,79 @@
+.loginForm {
+	color: #ffffff; width : 300px;
+	margin: 0px auto;
+	padding: 15px;
+	background: #3276B1;
+	width: 300px;
+}
+/* enable absolute positioning */
+.inner-addon {
+	position: relative;
+	color: #3276B1;
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+	position: absolute;
+	padding: 10px;
+	pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon {
+	left: 0px;
+}
+
+.right-addon .glyphicon {
+	right: 0px;
+}
+
+/* add padding  */
+.left-addon input {
+	padding-left: 50px;
+}
+
+.login-box {
+	max-width: 330px;
+	background-color: #fff;
+	padding: 20px;
+	margin: 0 auto;
+}
+
+.shadow {
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px
+		rgba(0, 0, 0, 0.16);
+}
+
+.login-form .form-control {
+	height: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	font-size: 16px;
+}
+
+.login-username {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.login-password {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.login-form .btn-primary {
+	border-radius: 0;
+}
+
+.login-form {
+	margin-top: 20px;
+}
+
+.login-btn {
+	border-radius: 0px;
+	border: 0px;
+	margin-top: 30px;
+}

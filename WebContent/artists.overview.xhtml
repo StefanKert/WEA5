@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/templates/template.xhtml">
+	<ui:define name="title">
+	    UFO - Artists
+	</ui:define>
+	<ui:define name="content">
+		<h3>Artists Overview</h3>
+		<h:form>
+			<p:dataTable var="model" value="#{artistBean.artists}"
+				emptyMessage="No artists found with given criteria">
+				<p:column filterBy="#{model.name}" headerText="Name"
+					filterMatchMode="contains">
+					<h:outputText value="#{model.name}" />
+				</p:column>
+				<p:column filterBy="#{model.country}" headerText="Country"
+					filterMatchMode="contains">
+					<h:outputText value="#{model.country}" />
+				</p:column>
+				<p:column filterBy="#{model.category.name}" headerText="Category"
+					filterMatchMode="contains">
+					<h:outputText value="#{model.category.name}" />
+				</p:column>
+				<p:column headerText="">
+					<p:commandButton value="Details"
+						actionListener="#{artistBean.setDetailedArtist(model.id)}" onclick="PF('dlg2').show();" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true"
+			height="100">
+			<h2>
+				<h:outputText value="#{artistBean.selectedArtist.name}" />
+			</h2>
+			<div style="width: 1000px;">
+				<table class="table-artistInfo">
+					<tr>
+						<th>Name</th>
+						<td><h:outputText value="#{artistBean.selectedArtist.name}" /></td>
+						<td rowspan="5">
+							<div style="margin-left: 100px;">
+								<p:graphicImage height="150px"
+									value="#{artistBean.selectedArtist.imageJSF}" />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>Country</th>
+						<td><h:outputText
+								value="#{artistBean.selectedArtist.country}" /></td>
+					</tr>
+					<tr>
+						<th>Website</th>
+						<td><h:outputLink
+								value="#{artistBean.selectedArtist.website}" target="_blank">
+								<h:outputText value="#{artistBean.selectedArtist.website}" />
+							</h:outputLink></td>
+					</tr>
+					<tr>
+						<th>Mail</th>
+						<td><h:outputText value="#{artistBean.selectedArtist.mail}" /></td>
+					</tr>
+					<tr>
+						<th>Category</th>
+						<td><h:outputText
+								value="#{artistBean.selectedArtist.category.name}" /></td>
+					</tr>
+				</table>
+
+				<h4 style="margin-top: 50px;">Performances by this artist</h4>
+				<p:dataTable sortBy="#{performance.timeString}" var="performance"
+					value="#{artistBean.selectedArtist.performances}">
+
+					<p:column headerText="Title">
+						<h:outputText value="#{performance.title}" />
+					</p:column>
+
+					<p:column headerText="Location">
+						<h:outputText value="#{performance.venue.title}" />
+					</p:column>
+
+					<p:column headerText="Time">
+						<h:outputText value="#{performance.timeString}" />
+					</p:column>
+				</p:dataTable>
+
+				<h:panelGroup
+					rendered="#{not empty artistBean.selectedArtist.videoUrl}">
+					<h4 style="margin-top: 50px;">Video</h4>
+					<iframe width="560" height="315"
+						src="#{artistBean.selectedArtist.videoUrl}" frameborder="0"
+						allowfullscreen=""></iframe>
+				</h:panelGroup>
+			</div>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+</html>

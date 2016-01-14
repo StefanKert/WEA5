@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/templates/template.xhtml">
+	<ui:define name="title">
+	    UFO - Venues
+	</ui:define>
+	<ui:define name="content">
+		<h3>Venues</h3>
+		<p:dataTable var="model" value="#{venue.venues}"
+			emptyMessage="No venues found with given criteria">
+			<p:column filterBy="#{model.title}" headerText="Title"
+				filterMatchMode="contains">
+				<h:outputText value="#{model.title}" />
+			</p:column>
+			<p:column headerText="">
+				<p:commandButton value="Details" type="submit"
+					action="#{ufoContext.venueDetails}">
+					<f:param name="venueId" value="#{model.id}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+	</ui:define>
+</ui:composition>
+</html>

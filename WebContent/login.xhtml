@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<title>Login</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" href="css/main.css" type="text/css" />
+</h:head>
+
+<ui:composition template="WEB-INF/templates/template.xhtml">
+	<ui:define name="title">
+	    UFO
+	</ui:define>
+	<ui:define name="content">
+	  	<div class="container-fluid">
+		<div class="row">
+			<div class="shadow login-box center-block">
+				<h:form class="login-form">					
+					<div class="inner-addon left-addon">
+						<i class="glyphicon glyphicon-user"/>
+						<h:inputText id="username" class="form-control login-username" value="#{login.user}" />
+					</div>
+					<div class="inner-addon left-addon">
+						<i class="glyphicon glyphicon-lock"/>
+						<h:inputSecret id="password" class="form-control login-password" value="#{login.pwd}" />
+					</div>
+					<h:commandButton action="#{login.validateUsernamePassword}"
+						value="Login" class="btn btn-lg btn-primary btn-block" />
+				</h:form>
+
+			</div>
+		</div>
+	</div>
+	</ui:define>
+</ui:composition>
+</html>
