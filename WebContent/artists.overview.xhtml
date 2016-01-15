@@ -14,7 +14,7 @@
 	<ui:define name="content">
 		<h3>Artists Overview</h3>
 		<h:form>
-			<p:dataTable var="model" value="#{artistBean.artists}"
+			<p:dataTable var="model" value="#{artistBean.allData}"
 				emptyMessage="No artists found with given criteria">
 				<p:column filterBy="#{model.name}" headerText="Name"
 					filterMatchMode="contains">
@@ -30,75 +30,74 @@
 				</p:column>
 				<p:column headerText="">
 					<p:commandButton value="Details"
-						actionListener="#{artistBean.setDetailedArtist(model.id)}" onclick="PF('dlg2').show();" />
+						action="#{artistBean.setEntity(model)}" update=":detail"
+						oncomplete="PF('detail').show()" />
 				</p:column>
 			</p:dataTable>
 		</h:form>
-		<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true"
-			height="100">
-			<h2>
-				<h:outputText value="#{artistBean.selectedArtist.name}" />
-			</h2>
-			<div style="width: 1000px;">
-				<table class="table-artistInfo">
-					<tr>
-						<th>Name</th>
-						<td><h:outputText value="#{artistBean.selectedArtist.name}" /></td>
-						<td rowspan="5">
-							<div style="margin-left: 100px;">
+		<p:dialog id="detail" widgetVar="detail">
+			<h:form>
+				<p:panelGrid columns="2">
+					<p:column style="width: 200px;">
+						<h2>
+							<h:outputText value="#{artistBean.detailedData.name}" />
+						</h2>
+						<p:panelGrid columns="2">
+							<f:facet name="header">
 								<p:graphicImage height="150px"
-									value="#{artistBean.selectedArtist.imageJSF}" />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>Country</th>
-						<td><h:outputText
-								value="#{artistBean.selectedArtist.country}" /></td>
-					</tr>
-					<tr>
-						<th>Website</th>
-						<td><h:outputLink
-								value="#{artistBean.selectedArtist.website}" target="_blank">
-								<h:outputText value="#{artistBean.selectedArtist.website}" />
-							</h:outputLink></td>
-					</tr>
-					<tr>
-						<th>Mail</th>
-						<td><h:outputText value="#{artistBean.selectedArtist.mail}" /></td>
-					</tr>
-					<tr>
-						<th>Category</th>
-						<td><h:outputText
-								value="#{artistBean.selectedArtist.category.name}" /></td>
-					</tr>
-				</table>
+									value="#{artistBean.detailedData.imageJSF}" />
+							</f:facet>
 
-				<h4 style="margin-top: 50px;">Performances by this artist</h4>
-				<p:dataTable sortBy="#{performance.timeString}" var="performance"
-					value="#{artistBean.selectedArtist.performances}">
+							<h:outputText value="Name:" />
+							<h:outputText value="#{artistBean.detailedData.name}" />
 
-					<p:column headerText="Title">
-						<h:outputText value="#{performance.title}" />
+							<h:outputText value="Counry:" />
+							<h:outputText value="#{artistBean.detailedData.country}" />
+
+							<h:outputText value="Website" />
+							<h:outputLink value="#{artistBean.detailedData.website}"
+								target="_blank">
+								<h:outputText value="#{artistBean.detailedData.website}" />
+							</h:outputLink>
+
+							<h:outputText value="Mail:" />
+							<h:outputText value="#{artistBean.detailedData.mail}" />
+
+							<h:outputText value="Category:" />
+							<h:outputText value="#{artistBean.detailedData.category.name}" />
+						</p:panelGrid>
 					</p:column>
+					<p:column>
+						<p:accordionPanel id="accordion" multiple="true"
+							style="margin-top: 50px;margin-bottom:20px;width: 800px;"
+							activeIndex="-1">
+							<p:tab title="Performances by this artist">
+								<p:dataTable sortBy="#{performance.timeString}"
+									var="performance"
+									value="#{artistBean.detailedData.performances}">
 
-					<p:column headerText="Location">
-						<h:outputText value="#{performance.venue.title}" />
+									<p:column headerText="Title">
+										<h:outputText value="#{performance.title}" />
+									</p:column>
+
+									<p:column headerText="Location">
+										<h:outputText value="#{performance.venue.title}" />
+									</p:column>
+
+									<p:column headerText="Time">
+										<h:outputText value="#{performance.timeString}" />
+									</p:column>
+								</p:dataTable>
+							</p:tab>
+							<p:tab title="Video"
+								rendered="#{not empty artistBean.detailedData.videoUrl}">
+								<iframe width="560" height="315"
+									src="#{artistBean.detailedData.videoUrl}" frameborder="0"></iframe>
+							</p:tab>
+						</p:accordionPanel>
 					</p:column>
-
-					<p:column headerText="Time">
-						<h:outputText value="#{performance.timeString}" />
-					</p:column>
-				</p:dataTable>
-
-				<h:panelGroup
-					rendered="#{not empty artistBean.selectedArtist.videoUrl}">
-					<h4 style="margin-top: 50px;">Video</h4>
-					<iframe width="560" height="315"
-						src="#{artistBean.selectedArtist.videoUrl}" frameborder="0"
-						allowfullscreen=""></iframe>
-				</h:panelGroup>
-			</div>
+				</p:panelGrid>
+			</h:form>
 		</p:dialog>
 	</ui:define>
 </ui:composition>

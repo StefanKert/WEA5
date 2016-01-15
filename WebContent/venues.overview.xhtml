@@ -13,19 +13,31 @@
 	</ui:define>
 	<ui:define name="content">
 		<h3>Venues</h3>
-		<p:dataTable var="model" value="#{venue.venues}"
+		<p:dataTable var="model" value="#{venueBean.allData}"
 			emptyMessage="No venues found with given criteria">
 			<p:column filterBy="#{model.title}" headerText="Title"
 				filterMatchMode="contains">
 				<h:outputText value="#{model.title}" />
 			</p:column>
 			<p:column headerText="">
-				<p:commandButton value="Details" type="submit"
-					action="#{ufoContext.venueDetails}">
-					<f:param name="venueId" value="#{model.id}" />
-				</p:commandButton>
+			  
+				<p:commandLink value="Details"
+					action="#{venueBean.setEntity(model)}" update=":detail"
+					oncomplete="PF('detail').show()" />
 			</p:column>
 		</p:dataTable>
+		<p:dialog id="detail" header="Details" widgetVar="detail"
+			showEffect="clip" hideEffect="clip">
+			<h2>
+				<h:outputText value="#{venueBean.detailedData.title}" />
+			</h2>
+			<div style="width: 1000px;">
+				<p:gmap
+					center="#{venueBean.detailedData.latitude}, #{venueBean.detailedData.longitude}"
+					zoom="14" type="HYBRID" style="width:1000px;height:600px"
+					model="#{venueBean.detailedData.mapModel}" />
+			</div>
+		</p:dialog>
 	</ui:define>
 </ui:composition>
 </html>

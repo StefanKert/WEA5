@@ -1,14 +1,14 @@
 package wea5.ufo.beans;
 
+import java.awt.event.ActionEvent;
+import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-
-import org.primefaces.model.map.LatLng;
-import org.primefaces.model.map.MapModel;
-import org.primefaces.model.map.Marker;
+import javax.faces.bean.ViewScoped;
 
 import com.owlike.genson.GenericType;
 
@@ -16,10 +16,11 @@ import wea5.ufo.contracts.Venue;
 import wea5.ufo.datalayer.VenueServiceProxy;
 import wea5.ufo.util.FacesUtil;
 
-@ManagedBean(name="venue")
-@SessionScoped
-public class VenueBean {
-	private MapModel mapModel;
+@ManagedBean(name="venueBean")
+@ViewScoped
+public class VenueBean extends AbstractDataBean<Venue> implements Serializable {
+	private static final long serialVersionUID = 4279159904165335946L;
+	private static final Logger logger = Logger.getLogger("VenueBean");
 	
 	@ManagedProperty("#{venueServiceProxy}")
 	private VenueServiceProxy venueServiceProxy;
@@ -27,25 +28,18 @@ public class VenueBean {
 	public void setVenueServiceProxy(VenueServiceProxy venueServiceProxy) {
 		this.venueServiceProxy = venueServiceProxy;
 	}
+    @PostConstruct
+    public void init() {
+    	this.data = venueServiceProxy.getAll(new GenericType<List<Venue>>() {});
+    	if(data == null)
+    		FacesUtil.showFatalErrorMessage("No data is loaded. Please refresh the page.");
+    }
 	
-	public List<Venue> getVenues() {
-		return this.venueServiceProxy.getAll(new GenericType<List<Venue>>(){});
+    
+	public void setEntity(Object test){
+		logger.info("settinge entity to " + test.toString());
+		//detailedData = venueServiceProxy.getById(Integer.toString(entity.getId()), new GenericType<Venue>() {});
 	}
+	
 
-	public Venue getSelectedVenue() {
-		String id = FacesUtil.getRequestParameterValue("venueId");
-		Venue selectedVenue = this.venueServiceProxy.getById(id, new GenericType<Venue>() {});
-		LatLng coord = new LatLng(selectedVenue.latitude, selectedVenue.longitude);
-		getMapModel().getMarkers().clear();
-		getMapModel().addOverlay(new Marker(coord, selectedVenue.title));
-		return selectedVenue;
-	}
-
-	public MapModel getMapModel() {
-		return mapModel;
-	}
-
-	public void setMapModel(MapModel mapModel) {
-		this.mapModel = mapModel;
-	}
 }
