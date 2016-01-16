@@ -74,9 +74,6 @@ public class Artist {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
 
 	public String getVideoUrl() {
 		return videoUrl;
@@ -102,8 +99,8 @@ public class Artist {
 		this.category = category;
 	}
 	
-	public StreamedContent getImageJSF() {
-		return new DefaultStreamedContent(new ByteArrayInputStream(image));
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	public List<Performance> getPerformances() {
@@ -112,5 +109,9 @@ public class Artist {
 
 	public void setPerformances(List<Performance> performances) {
 		this.performances = performances;
+	}
+	
+	public StreamedContent getImageJSF() {
+		return new DefaultStreamedContent(new ByteArrayInputStream(this.getImage()), "image/png");
 	}
 }

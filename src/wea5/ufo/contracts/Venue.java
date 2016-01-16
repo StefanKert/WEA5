@@ -38,12 +38,14 @@ public class Venue {
 		return description;
 	}
 	
+	public void setMapModel(MapModel mapModel){
+		this.mapModel = mapModel;
+	}
+	
 	public MapModel getMapModel() {
-		Logger.getLogger("s").info("loading mapmodel");
 		LatLng coord = new LatLng(this.latitude, this.longitude);
 		mapModel.getMarkers().clear();
 		mapModel.addOverlay(new Marker(coord, this.title));
-		Logger.getLogger("s").info("added things to mapmodel mapmodel");
 		return mapModel;
 	}
 

@@ -10,31 +10,23 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
  
-@ManagedBean
+@ManagedBean(name = "authenticationBean")
 @SessionScoped
-public class Login implements Serializable {
+public class AuthenticationBean implements Serializable {
 	private static final long serialVersionUID = 5115452756983982147L;
-	private static Logger logger = Logger.getLogger(Login.class.getName());
+	private static Logger logger = Logger.getLogger(AuthenticationBean.class.getName());
 	
-	private String pwd;
-    private String msg;
+	private String password;
     private String user;
  
-    public String getPwd() {
-        return pwd;
+    public String getPassword() {
+        return password;
     }
  
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
- 
-    public String getMsg() {
-        return msg;
-    }
- 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
+
  
     public String getUser() {
         return user;
@@ -45,28 +37,24 @@ public class Login implements Serializable {
     }
  
     //validate login
-    public String validateUsernamePassword() {
-        logger.info("try to login with credentials user: " + user + " and pwd: " +  pwd);
-    	if(Objects.equals(user, "test") && Objects.equals(pwd, "test")){
+    public void login() {
+        logger.info("try to login with credentials user: " + user + " and pwd: " +  password);
+        
+    	if(Objects.equals(user, "test") && Objects.equals(password, "test")){
             HttpSession session = SessionBean.getSession();
             session.setAttribute("username", user);
-            logger.info("Login succeeded");
-            return "admin";
+ 
         } else {
-        	logger.info("wrong credentials");
             FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "Incorrect Username and Passoword",
                             "Please enter correct username and Password"));
-            return "login";
         }
     }
- 
-    //logout event, invalidate session
-    public String logout() {
+      
+    public void logout() {
         HttpSession session = SessionBean.getSession();
         session.invalidate();
-        return "login";
     }
 }

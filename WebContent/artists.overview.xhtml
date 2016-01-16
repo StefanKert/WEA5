@@ -5,7 +5,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui">
 
 <ui:composition template="WEB-INF/templates/template.xhtml">
 	<ui:define name="title">
@@ -14,26 +15,26 @@
 	<ui:define name="content">
 		<h3>Artists Overview</h3>
 		<h:form>
-			<p:dataTable var="model" value="#{artistBean.allData}"
+			<b:dataTable var="model" value="#{artistBean.allData}"
 				emptyMessage="No artists found with given criteria">
-				<p:column filterBy="#{model.name}" headerText="Name"
+				<b:column filterBy="#{model.name}" headerText="Name"
 					filterMatchMode="contains">
 					<h:outputText value="#{model.name}" />
-				</p:column>
-				<p:column filterBy="#{model.country}" headerText="Country"
+				</b:column>
+				<b:column filterBy="#{model.country}" headerText="Country"
 					filterMatchMode="contains">
 					<h:outputText value="#{model.country}" />
-				</p:column>
-				<p:column filterBy="#{model.category.name}" headerText="Category"
+				</b:column>
+				<b:column filterBy="#{model.category.name}" headerText="Category"
 					filterMatchMode="contains">
 					<h:outputText value="#{model.category.name}" />
-				</p:column>
-				<p:column headerText="">
-					<p:commandButton value="Details"
+				</b:column>
+				<b:column headerText="">
+					<b:commandButton value="Details"
 						action="#{artistBean.setEntity(model)}" update=":detail"
 						oncomplete="PF('detail').show()" />
-				</p:column>
-			</p:dataTable>
+				</b:column>
+			</b:dataTable>
 		</h:form>
 		<p:dialog id="detail" widgetVar="detail">
 			<h:form>
@@ -72,7 +73,7 @@
 							style="margin-top: 50px;margin-bottom:20px;width: 800px;"
 							activeIndex="-1">
 							<p:tab title="Performances by this artist">
-								<p:dataTable sortBy="#{performance.timeString}"
+								<p:dataTable sortBy="#{performance.time}"
 									var="performance"
 									value="#{artistBean.detailedData.performances}">
 
@@ -85,7 +86,7 @@
 									</p:column>
 
 									<p:column headerText="Time">
-										<h:outputText value="#{performance.timeString}" />
+										<h:outputText value="#{performance.time}" />
 									</p:column>
 								</p:dataTable>
 							</p:tab>

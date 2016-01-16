@@ -12,6 +12,7 @@ import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
 import com.owlike.genson.ext.jodatime.JodaTimeBundle;
+import com.sun.istack.internal.logging.Logger;
 
 import wea5.ufo.ServiceLocator;
 

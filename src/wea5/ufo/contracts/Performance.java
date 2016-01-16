@@ -46,10 +46,6 @@ public class Performance {
 	public void setTime(LocalDateTime time) {
 		this.time = time;
 	}
-
-	public String getTimeString() {
-		return time.toString("dd.MM.yyyy HH:mm");
-	}
 	
 	public int getVenueID() {
 		return venueID;

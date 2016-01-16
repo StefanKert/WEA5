@@ -1,11 +1,31 @@
-<div 
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:h="http://xmlns.jcp.org/jsf/html">
-	<h:form>
-		<p:menubar>
-			<p:menuitem value="Home" action="#{ufoContext.allPerformances}" />
-		 	<p:menuitem value="Artists" action="#{ufoContext.allArtists}"  />
-		 	<p:menuitem value="Venues" action="#{ufoContext.allVenues}"/>
-		</p:menubar>
-	</h:form>
+<div xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui">
+	<b:navBar brand="UFO" fixed="top" brandHref="#" inverse="false">
+		<h:form>
+			<b:navbarLinks>
+				<b:navCommandLink value="Home"
+					action="#{ufoContext.allPerformances}" />
+				<b:navCommandLink value="Artists" action="#{ufoContext.allArtists}" />
+				<b:navCommandLink value="Venues" action="#{ufoContext.allVenues}" />
+			</b:navbarLinks>
+		</h:form>
+		<h:form styleClass="navbar-form navbar-right" rendered="#{empty username}">
+			<div class="form-group">
+				<b:inputText placeholder="Username" value="#{authenticationBean.user}"  fieldSize="sm" />
+			</div>
+			<div class="form-group">
+				<b:inputText placeholder="Password" value="#{authenticationBean.password}" fieldSize="sm" />
+			</div> 
+                #{' '}
+                <b:commandButton action="#{authenticationBean.login}" value="Sign in" look="success" icon="chevron-right" iconAlign="right" />
+		</h:form>
+		<h:form styleClass="navbar-form navbar-right" rendered="#{not empty username}">
+			<div class="form-group">
+				<p:outputLabel value="Welcome #{username}!"   />
+			</div>
+                #{' '}
+                <b:commandButton action="#{authenticationBean.logout}" value="Sign out" look="success" icon="chevron-right" iconAlign="right" />
+		</h:form>
+	</b:navBar>
 </div>

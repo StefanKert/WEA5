@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.extensions.event.timeline.TimelineSelectEvent;
@@ -22,7 +23,7 @@ import wea5.ufo.contracts.Venue;
 import wea5.ufo.datalayer.PerformanceServiceProxy;
 
 @ManagedBean(name = "performanceBean")
-@ViewScoped
+@SessionScoped
 public class PerformanceBean extends AbstractDataBean<Performance> implements Serializable {
 	private static final long serialVersionUID = -7661418168694226954L;
 	private static final Logger logger = Logger.getLogger("PerformancesDataTable");
@@ -44,12 +45,13 @@ public class PerformanceBean extends AbstractDataBean<Performance> implements Se
 		model = new TimelineModel();
 
 		for (Venue venue : venues) {
-			TimelineGroup group1 = new TimelineGroup(Integer.toString(venue.id), venue);
-			model.addGroup(group1);
+			model.addGroup(new TimelineGroup(Integer.toString(venue.id), venue));
 		}
 		
         for(Performance performance : performances){
-        	model.add(new TimelineEvent(performance, performance.time.toDate(), performance.time.plusHours(1).toDate(), true,Integer.toString(performance.venueID)));
+        	TimelineEvent event =new TimelineEvent(performance, performance.time.toDate(), performance.time.plusHours(1).toDate(), true,Integer.toString(performance.venueID));
+        	event.setStyleClass("eventtype-" + Integer.toString(performance.artistID).charAt(0));
+        	model.add(event);
         }
 	}
 
@@ -66,7 +68,6 @@ public class PerformanceBean extends AbstractDataBean<Performance> implements Se
 	}
 	 
 	public void setEntity(Performance entity) {
-		logger.info("settinge entity to " + entity.getId());
 		detailedData =	entity;
 	} 
 }

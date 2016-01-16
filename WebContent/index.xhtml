@@ -8,53 +8,38 @@
 
 <ui:composition template="WEB-INF/templates/template.xhtml">
 	<ui:define name="title">
-	    UFO
+	    UFO - Performances
 	</ui:define>
 	<ui:define name="content">
 		<h:form>
-
-			<h3>Performances</h3>
 			<pe:timeline id="timeline" value="#{performanceBean.model}"
 				var="order" varGroup="group" eventMargin="20" eventMarginAxis="0"
 				groupsChangeable="true" groupsOnRight="false" stackEvents="false"
 				showMajorLabels="false" axisOnTop="true" timeZone="Europe/Berlin"
-				widgetVar="timelineWdgt" showNavigation="true">
+				widgetVar="timelineWdgt" showNavigation="true" editable="#{not empty username}" moveable="false">
 				<p:ajax event="select" update=":details"
 					listener="#{performanceBean.onSelected}"
 					oncomplete="PF('details').show()" />
 				<f:facet name="group">
-					<h:outputText value="#{group.title}" style="font-weight:bold;" />
-						<p:commandLink value="#{group.id}"
-					actionListener="#{venueBean.setEntity(group)}" update=":venueDetails"
-					oncomplete="PF('venueDetails').show()" />
+					<p:commandLink value="#{group.title}" icon="ui-icon-extlink"  actionListener="#{venueBean.showDetails}">
+						 <f:param name="venueId" value="#{group.id}" />
+					</p:commandLink>
 				</f:facet>
 
 				<h:outputText value="#{order.title}" />
 			</pe:timeline>
 		</h:form>
 
-		<p:dialog id="venueDetails" header="Details" widgetVar="venueDetails"
+		<p:dialog id="details" header="Details" widgetVar="details"
 			showEffect="clip" hideEffect="clip">
-			<h2>
-				<h:outputText value="#{venueBean.detailedData.title}" />
-			</h2>
-			<div style="width: 1000px;">
-				<p:gmap
-					center="#{venueBean.detailedData.latitude}, #{venueBean.detailedData.longitude}"
-					zoom="14" type="HYBRID" style="width:1000px;height:600px"
-					model="#{venueBean.detailedData.mapModel}" />
-			</div>
-		</p:dialog>
-		<p:dialog id="details" header="Details"
-			widgetVar="details" showEffect="clip" hideEffect="clip">
 			<h:panelGroup id="detailsPerformanceInner" layout="block">
 				<h:panelGrid>
 					<h:outputText value="#{performanceBean.detailedData.title}" />
 				</h:panelGrid>
-							<h2>
-				<h:outputText value="#{performanceBean.detailedData.venue.title}" />
-			</h2>
-						<div style="width: 1000px;">
+				<h2>
+					<h:outputText value="#{performanceBean.detailedData.venue.title}" />
+				</h2>
+				<div style="width: 1000px;">
 					<p:gmap
 						center="#{performanceBean.detailedData.venue.latitude}, #{performanceBean.detailedData.venue.longitude}"
 						zoom="14" type="HYBRID" style="width:1000px;height:600px"
