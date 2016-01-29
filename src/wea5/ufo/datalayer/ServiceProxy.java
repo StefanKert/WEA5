@@ -12,7 +12,6 @@ import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
 import com.owlike.genson.ext.jodatime.JodaTimeBundle;
-import com.sun.istack.internal.logging.Logger;
 
 import wea5.ufo.ServiceLocator;
 
@@ -64,5 +63,14 @@ public abstract class ServiceProxy<K> {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public void saveData(K entity) throws Exception {
+		Genson genson = new GensonBuilder().useClassMetadata(true).withBundle(new JodaTimeBundle()).create();
+		String json = genson.serialize(entity);
+		JsonNode node = new JsonNode(json);
+		Unirest.put(getServiceUrl() + getControllerName())
+				.header("Content-Type", "application/json").header("Accept", "application/json").body(node)
+				.asJson();
 	}
 }

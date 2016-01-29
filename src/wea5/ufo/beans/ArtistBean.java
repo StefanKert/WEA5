@@ -1,42 +1,42 @@
 package wea5.ufo.beans;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-
-import com.owlike.genson.GenericType;
+import javax.faces.bean.ViewScoped;
 
 import wea5.ufo.contracts.Artist;
-import wea5.ufo.datalayer.ArtistServiceProxy;
-import wea5.ufo.util.FacesUtil;
+import wea5.ufo.datalayer.ServiceProxy;
 
 @ManagedBean(name="artistBean")
-@SessionScoped
+@ViewScoped
 public class ArtistBean extends AbstractDataBean<Artist> implements Serializable{
 	private static final long serialVersionUID = 8719086752016341311L;
-	private static final Logger logger = Logger.getLogger("ArtistBean");
 	
 	@ManagedProperty("#{artistServiceProxy}")
-	private ArtistServiceProxy artistServiceProxy;
+	private ServiceProxy<Artist>  serviceProxy;
 	
-	public void setArtistServiceProxy(ArtistServiceProxy artistServiceProxy) {
-		this.artistServiceProxy = artistServiceProxy;
+	@Override
+	protected ServiceProxy<Artist> getServiceProxy() {
+		return serviceProxy;
+	}
+	
+	@Override
+	public void setServiceProxy(ServiceProxy<Artist> serviceProxy) {
+		this.serviceProxy = serviceProxy;
 	}
 	
     @PostConstruct
     public void init() {
-    	this.data = artistServiceProxy.getAll(new GenericType<List<Artist>>() {});
-    	if(data == null){
-    		FacesUtil.showFatalErrorMessage("No data is loaded. Please refresh the page.");    	
-    	}
+    	initList(Artist.class);
     }
-	
-	public void setEntity(Artist entity){
-		detailedData = artistServiceProxy.getById(Integer.toString(entity.getId()), new GenericType<Artist>() {});	
-	}
+    
+    @Override
+    protected boolean filterEntity(Artist entity, String filterValue){
+    	return entity.getName().toUpperCase().contains(filterValue.toUpperCase()) 
+    			|| entity.getCategory().getName().toUpperCase().contains(filterValue.toUpperCase()) 
+    			|| entity.getCountry().toUpperCase().contains(filterValue.toUpperCase());
+    }
 }

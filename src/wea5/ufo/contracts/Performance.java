@@ -1,19 +1,26 @@
 package wea5.ufo.contracts;
 
+import java.util.Date;
+import java.util.List;
+
 import org.joda.time.LocalDateTime;
 
-public class Performance {
-	public int id;
-    public String title;
-    public String description;
-    public LocalDateTime time;
-    public int venueID;
-    public int artistID;
-    public Artist Artist;
-    public Venue Venue;
-    
-    public Performance() {    	
-    }
+import com.owlike.genson.GenericType;
+import com.owlike.genson.annotation.JsonIgnore;
+
+public class Performance implements Entity<Performance> {
+	private int id;
+	private String title;
+	private String description;
+	private LocalDateTime time;
+	private int venueID;
+	private int artistID;
+	private Artist Artist;
+	private Venue Venue;
+	private boolean canceled;
+
+	public Performance() {
+	}
 
 	public int getId() {
 		return id;
@@ -43,10 +50,28 @@ public class Performance {
 		return time;
 	}
 
+	public String getTimeFromString() {
+		return time.toString("dd.MM.YYYY HH:mm");
+	}
+
+	public String getTimeUntilString() {
+		return time.plusHours(1).toString("dd.MM.YYYY HH:mm");
+	}
+
+	@JsonIgnore
+	public Date getTimeAsDate() {
+		return time.toDate();
+	}
+
+	@JsonIgnore
+	public void setTimeAsDate(Date date) {
+		time = new LocalDateTime(date);
+	}
+
 	public void setTime(LocalDateTime time) {
 		this.time = time;
 	}
-	
+
 	public int getVenueID() {
 		return venueID;
 	}
@@ -77,5 +102,27 @@ public class Performance {
 
 	public void setVenue(Venue venue) {
 		Venue = venue;
-	}    
+	}
+
+	public boolean isCanceled() {
+		return canceled;
+	}
+
+	public void setCanceled(boolean canceled) {
+		this.canceled = canceled;
+	}
+
+	@JsonIgnore
+	@Override
+	public GenericType<Performance> getGenericInstance() {
+		return new GenericType<Performance>() {
+		};
+	}
+
+	@JsonIgnore
+	@Override
+	public GenericType<List<Performance>> getGenericListInstance() {
+		return new GenericType<List<Performance>>() {
+		};
+	}
 }

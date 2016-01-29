@@ -1,6 +1,10 @@
 package wea5.ufo.contracts;
 
-public class Category {
+import java.util.List;
+
+import com.owlike.genson.GenericType;
+
+public class Category implements Entity<Category>  {
 	private String name;
 	private int id;
 	
@@ -26,5 +30,15 @@ public class Category {
 	@Override
 	public String toString() {
 		return name;
+	}
+	
+	@Override
+	public GenericType<Category> getGenericInstance() {
+		return new GenericType<Category>(){};
+	}
+
+	@Override
+	public GenericType<List<Category>> getGenericListInstance() {
+		return new GenericType<List<Category>>(){};
 	}
 }

@@ -1,30 +1,31 @@
 <div xmlns:p="http://primefaces.org/ui"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:b="http://bootsfaces.net/ui">
-	<b:navBar brand="UFO" fixed="top" brandHref="#" inverse="false">
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<b:navBar brand="UFO" fixed="top" brandHref="#" inverse="false" styleClass="navigation">
 		<h:form>
 			<b:navbarLinks>
-				<b:navCommandLink value="Home"
-					action="#{ufoContext.allPerformances}" />
-				<b:navCommandLink value="Artists" action="#{ufoContext.allArtists}" />
-				<b:navCommandLink value="Venues" action="#{ufoContext.allVenues}" />
+				<b:navCommandLink value="Home" action="BrowseAllPerformancesEvent" />
+				<b:navCommandLink value="Artists" action="BrowseAllArtistsEvent" />
+				<b:navCommandLink value="Venues" action="BrowseAllVenuesEvent" />
 			</b:navbarLinks>
 		</h:form>
-		<h:form styleClass="navbar-form navbar-right" rendered="#{empty username}">
+		<ui:insert name="searchForm"/>
+		<h:form styleClass="navbar-form navbar-right" rendered="#{!authenticationBean.isAuthenticated}">
 			<div class="form-group">
 				<b:inputText placeholder="Username" value="#{authenticationBean.user}"  fieldSize="sm" />
 			</div>
 			<div class="form-group">
-				<b:inputText placeholder="Password" value="#{authenticationBean.password}" fieldSize="sm" />
+				<b:inputSecret placeholder="Password" value="#{authenticationBean.password}" fieldSize="sm" />
 			</div> 
-                #{' '}
-                <b:commandButton action="#{authenticationBean.login}" value="Sign in" look="success" icon="chevron-right" iconAlign="right" />
+			#{'   '}
+                <b:commandButton action="#{authenticationBean.login}" value="Sign in" look="success" icon="chevron-right" iconAlign="right"/>
 		</h:form>
-		<h:form styleClass="navbar-form navbar-right" rendered="#{not empty username}">
+		<h:form styleClass="navbar-form navbar-right" rendered="#{authenticationBean.isAuthenticated}">
 			<div class="form-group">
-				<p:outputLabel value="Welcome #{username}!"   />
+				<p:outputLabel value="Welcome #{authenticationBean.user} !"   />
 			</div>
-                #{' '}
+			#{'   '}
                 <b:commandButton action="#{authenticationBean.logout}" value="Sign out" look="success" icon="chevron-right" iconAlign="right" />
 		</h:form>
 	</b:navBar>

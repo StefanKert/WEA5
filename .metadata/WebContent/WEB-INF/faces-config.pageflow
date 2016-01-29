@@ -2,15 +2,11 @@
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14505250735980" configfile="/UFO/WebContent/WEB-INF/faces-config.xml">
   <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="122" y="178" id="pf14523541857900" referenceLink="//@navigationRule.0/@fromViewId|" path="/login.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="admin.xhtml" x="122" y="562" id="pf14523541857912" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" path="/admin.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="*" x="491" y="576" id="pf14526998569160" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf14526998569161 pf14526998569162 pf14526998569164 pf14526998569165 pf145269985945311" path="/*"/>
-  <nodes xsi:type="pageflow:PFPage" name="artistDetails.xhtml" x="912" y="312" id="pf14526998569166" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf14526998569161" path="/artists.details.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" x="491" y="576" id="pf14526998569160" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf14526998569162 pf14526998569165 pf145269985945311" path="/*"/>
   <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="504" y="156" id="pf14526998569167" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14526998569162" path="/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="venueDetails.xhtml" x="720" y="178" id="pf14526998569169" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf14526998569164" path="/venues.details.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="artistsView.xhtml" x="144" y="312" id="pf145269985691610" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" inlinks="pf14526998569165" path="/artists.overview.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="venuesView.xhtml" x="300" y="113" id="pf145269985945412" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf145269985945311" path="/venues.overview.xhtml"/>
-  <links id="pf14526998569161" target="pf14526998569166" source="pf14526998569160" outcome="BrowseArtistDetailsEvent"/>
   <links id="pf14526998569162" target="pf14526998569167" source="pf14526998569160" outcome="BrowseAllPerformancesEvent"/>
-  <links id="pf14526998569164" target="pf14526998569169" source="pf14526998569160" outcome="BrowseVenueDetailsEvent"/>
   <links id="pf14526998569165" target="pf145269985691610" source="pf14526998569160" outcome="BrowseAllArtistsEvent"/>
   <links id="pf145269985945311" target="pf145269985945412" source="pf14526998569160" outcome="BrowseAllVenuesEvent"/>
 </pageflow:Pageflow>

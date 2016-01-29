@@ -1,17 +1,20 @@
 package wea5.ufo.contracts;
 
-import org.jboss.logging.Logger;
+import java.util.List;
+
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 
-public class Venue {
-    public int id;
-    public String title;
-    public String description;
-    public double longitude;
-    public double latitude;
+import com.owlike.genson.GenericType;
+
+public class Venue implements Entity<Venue>  {
+	private int id;
+	private String title;
+	private String description;
+	private double longitude;
+	private double latitude;
 	private MapModel mapModel;
 	
     public Venue() {  
@@ -68,4 +71,14 @@ public class Venue {
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}  
+	
+	@Override
+	public GenericType<Venue> getGenericInstance() {
+		return new GenericType<Venue>(){};
+	}
+
+	@Override
+	public GenericType<List<Venue>> getGenericListInstance() {
+		return new GenericType<List<Venue>>(){};
+	}
 }

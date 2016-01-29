@@ -5,100 +5,114 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:b="http://bootsfaces.net/ui">
-
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+<f:metadata>
+	<f:viewAction action="#{artistBean.onPageLoad}" />
+</f:metadata>
 <ui:composition template="WEB-INF/templates/template.xhtml">
 	<ui:define name="title">
 	    UFO - Artists
 	</ui:define>
-	<ui:define name="content">
-		<h3>Artists Overview</h3>
-		<h:form>
-			<b:dataTable var="model" value="#{artistBean.allData}"
-				emptyMessage="No artists found with given criteria">
-				<b:column filterBy="#{model.name}" headerText="Name"
-					filterMatchMode="contains">
-					<h:outputText value="#{model.name}" />
-				</b:column>
-				<b:column filterBy="#{model.country}" headerText="Country"
-					filterMatchMode="contains">
-					<h:outputText value="#{model.country}" />
-				</b:column>
-				<b:column filterBy="#{model.category.name}" headerText="Category"
-					filterMatchMode="contains">
-					<h:outputText value="#{model.category.name}" />
-				</b:column>
-				<b:column headerText="">
-					<b:commandButton value="Details"
-						action="#{artistBean.setEntity(model)}" update=":detail"
-						oncomplete="PF('detail').show()" />
-				</b:column>
-			</b:dataTable>
+	<ui:define name="searchForm">
+		<h:form styleClass="navbar-form navbar-left search-form">
+			<div class="form-group">
+				<div class="inner-addon left-addon">
+					<i class="glyphicon glyphicon-search" />
+					<p:inputText id="searchText" value="#{artistBean.searchtTerm}"
+						onkeypress="onchange()"
+						styleClass="form-control"
+						placeholder="Search">
+						<p:ajax event="change" listener="#{artistBean.onFilterChanged}"
+							update=":artistsTable" />
+					</p:inputText>
+				</div>
+			</div>
 		</h:form>
+	</ui:define>
+	<ui:define name="content">
+		<p:dataTable var="model" value="#{artistBean.allData}"
+			emptyMessage="No artists found with given criteria"
+			selectionMode="single" rowKey="#{model.id}" widgetVar="artistsTable"
+			id="artistsTable">
+			<p:ajax event="rowSelect" update=":detail"
+				listener="#{artistBean.onRowSelect}"
+				oncomplete="PF('detail').show()" async="true">
+			</p:ajax>
+			<p:column headerText="Name">
+				<h:outputText value="#{model.name}" />
+			</p:column>
+			<p:column headerText="Country">
+				<h:outputText value="#{model.country}" />
+			</p:column>
+			<p:column headerText="Category">
+				<h:outputText value="#{model.category.name}" />
+			</p:column>
+		</p:dataTable>
 		<p:dialog id="detail" widgetVar="detail">
-			<h:form>
-				<p:panelGrid columns="2">
-					<p:column style="width: 200px;">
-						<h2>
-							<h:outputText value="#{artistBean.detailedData.name}" />
-						</h2>
-						<p:panelGrid columns="2">
-							<f:facet name="header">
-								<p:graphicImage height="150px"
-									value="#{artistBean.detailedData.imageJSF}" />
-							</f:facet>
+			<p:panelGrid columns="2">
+				<p:column style="width: 200px;">
+					<h2>
+						<h:outputText value="#{artistBean.detailedData.name}" />
+					</h2>
+					<p:panelGrid columns="2">
+						<f:facet name="header">
+							<p:graphicImage height="150px" value="#{imageStreamer.image}">
+								<f:param name="artistId" value="#{artistBean.detailedData.id}" />
+							</p:graphicImage>
+						</f:facet>
 
-							<h:outputText value="Name:" />
-							<h:outputText value="#{artistBean.detailedData.name}" />
+						<h:outputText value="Name:" />
+						<h:outputText value="#{artistBean.detailedData.name}" />
 
-							<h:outputText value="Counry:" />
-							<h:outputText value="#{artistBean.detailedData.country}" />
+						<h:outputText value="Counry:" />
+						<h:outputText value="#{artistBean.detailedData.country}" />
 
-							<h:outputText value="Website" />
-							<h:outputLink value="#{artistBean.detailedData.website}"
-								target="_blank">
-								<h:outputText value="#{artistBean.detailedData.website}" />
-							</h:outputLink>
+						<h:outputText value="Website" />
+						<h:outputLink value="#{artistBean.detailedData.website}"
+							target="_blank">
+							<h:outputText value="#{artistBean.detailedData.website}" />
+						</h:outputLink>
 
-							<h:outputText value="Mail:" />
-							<h:outputText value="#{artistBean.detailedData.mail}" />
+						<h:outputText value="Mail:" />
+						<h:outputText value="#{artistBean.detailedData.mail}" />
 
-							<h:outputText value="Category:" />
-							<h:outputText value="#{artistBean.detailedData.category.name}" />
-						</p:panelGrid>
-					</p:column>
-					<p:column>
-						<p:accordionPanel id="accordion" multiple="true"
-							style="margin-top: 50px;margin-bottom:20px;width: 800px;"
-							activeIndex="-1">
-							<p:tab title="Performances by this artist">
-								<p:dataTable sortBy="#{performance.time}"
-									var="performance"
-									value="#{artistBean.detailedData.performances}">
+						<h:outputText value="Category:" />
+						<h:outputText value="#{artistBean.detailedData.category.name}" />
+					</p:panelGrid>
+				</p:column>
+				<p:column>
+					<p:accordionPanel id="accordion" multiple="true"
+						style="margin-top: 50px;margin-bottom:20px;width: 800px;"
+						activeIndex="-1">
+						<p:tab title="Performances by this artist">
+							<p:dataTable sortBy="#{performance.time}" var="performance"
+								value="#{artistBean.detailedData.performances}">
 
-									<p:column headerText="Title">
-										<h:outputText value="#{performance.title}" />
-									</p:column>
+								<p:column headerText="Title">
+									<h:outputText value="#{performance.title}" />
+								</p:column>
 
-									<p:column headerText="Location">
-										<h:outputText value="#{performance.venue.title}" />
-									</p:column>
+								<p:column headerText="Location">
+									<h:outputText value="#{performance.venue.title}" />
+								</p:column>
 
-									<p:column headerText="Time">
-										<h:outputText value="#{performance.time}" />
-									</p:column>
-								</p:dataTable>
-							</p:tab>
-							<p:tab title="Video"
-								rendered="#{not empty artistBean.detailedData.videoUrl}">
-								<iframe width="560" height="315"
-									src="#{artistBean.detailedData.videoUrl}" frameborder="0"></iframe>
-							</p:tab>
-						</p:accordionPanel>
-					</p:column>
-				</p:panelGrid>
-			</h:form>
+								<p:column headerText="From">
+									<h:outputText value="#{performance.timeFromString}" />
+								</p:column>
+								
+																<p:column headerText="Until">
+									<h:outputText value="#{performance.timeUntilString}" />
+								</p:column>
+							</p:dataTable>
+						</p:tab>
+						<p:tab title="Video"
+							rendered="#{not empty artistBean.detailedData.videoUrl}">
+							<iframe width="560" height="315"
+								src="#{artistBean.detailedData.videoUrl}" frameborder="0"></iframe>
+						</p:tab>
+					</p:accordionPanel>
+				</p:column>
+			</p:panelGrid>
 		</p:dialog>
 	</ui:define>
 </ui:composition>

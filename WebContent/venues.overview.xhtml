@@ -5,28 +5,41 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
 <ui:composition template="WEB-INF/templates/template.xhtml">
 	<ui:define name="title">
 	    UFO - Venues
 	</ui:define>
+	<ui:define name="searchForm">
+		<h:form styleClass="navbar-form navbar-left search-form">
+			<div class="form-group">
+				<div class="inner-addon left-addon">
+					<i class="glyphicon glyphicon-search" />
+					<p:inputText id="searchText" value="#{venueBean.searchtTerm}"
+						onkeypress="onchange()"
+						styleClass="form-control"
+						placeholder="Search">
+						<p:ajax event="change" listener="#{venueBean.onFilterChanged}"
+							update=":venueTable" />
+					</p:inputText>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
 	<ui:define name="content">
-		<h3>Venues</h3>
 		<p:dataTable var="model" value="#{venueBean.allData}"
-			emptyMessage="No venues found with given criteria">
-			<p:column filterBy="#{model.title}" headerText="Title"
-				filterMatchMode="contains">
-				<h:outputText value="#{model.title}" />
-			</p:column>
-			<p:column headerText="">
-			  
-				<p:commandLink value="Details"
-					action="#{venueBean.setEntity(model)}" update=":detail"
-					oncomplete="PF('detail').show()" />
+			emptyMessage="No venues found with given criteria"
+			selectionMode="single" rowKey="#{model.id}" id="venueTable"
+			widgetVar="venueTable">
+			<p:ajax event="rowSelect" update=":venueDetais"
+				listener="#{venueBean.onRowSelect}"
+				oncomplete="PF('venueDetais').show()" async="true">
+			</p:ajax>
+			<p:column headerText="Title">
+				<p:outputLabel value="#{model.title}" />
 			</p:column>
 		</p:dataTable>
-		<p:dialog id="detail" header="Details" widgetVar="detail"
+		<p:dialog id="venueDetais" header="Details" widgetVar="venueDetais"
 			showEffect="clip" hideEffect="clip">
 			<h2>
 				<h:outputText value="#{venueBean.detailedData.title}" />

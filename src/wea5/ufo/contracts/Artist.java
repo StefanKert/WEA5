@@ -4,9 +4,12 @@ import java.io.ByteArrayInputStream;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
+
+import com.owlike.genson.GenericType;
+
 import java.util.List;
 
-public class Artist {
+public class Artist implements Entity<Artist> {
 	private int id;
 	private String name;
 	private String country;
@@ -112,6 +115,16 @@ public class Artist {
 	}
 	
 	public StreamedContent getImageJSF() {
-		return new DefaultStreamedContent(new ByteArrayInputStream(this.getImage()), "image/png");
+		return new DefaultStreamedContent(new ByteArrayInputStream(this.getImage()));
+	}
+
+	@Override
+	public GenericType<Artist> getGenericInstance() {
+		return new GenericType<Artist>(){};
+	}
+
+	@Override
+	public GenericType<List<Artist>> getGenericListInstance() {
+		return new GenericType<List<Artist>>(){};
 	}
 }
